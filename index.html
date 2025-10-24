@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>🌙 Realtime Translate Test</title>
+</head>
+<body style="font-family:sans-serif; padding:20px;">
+  <h2>🌸 Realtime Translate Test</h2>
+  <textarea id="input" rows="4" cols="50" placeholder="入力してください..."></textarea><br>
+  <select id="targetLang">
+    <option value="English">English</option>
+    <option value="Japanese">日本語</option>
+    <option value="Chinese">中文</option>
+    <option value="Korean">한국어</option>
+  </select>
+  <button id="translateBtn">翻訳</button>
+
+  <h3>💬 結果:</h3>
+  <div id="output" style="white-space:pre-wrap; background:#f4f4f4; padding:10px; border-radius:8px;"></div>
+
+  <script src="client.js"></script>
+</body>
+</html>
