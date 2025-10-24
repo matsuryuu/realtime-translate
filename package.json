@@ -1,0 +1,13 @@
+{
+  "name": "realtime-translate",
+  "version": "1.0.0",
+  "description": "Realtime translation backend (Render)",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
