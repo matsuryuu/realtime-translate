@@ -1,22 +1,66 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>🌙 Realtime Translate Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🌙 Realtime Voice Translate</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding:16px; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .pill { padding:6px 10px; border-radius:999px; background:#f3f4f6; }
+    .btn { padding:8px 14px; border-radius:10px; border:1px solid #e5e7eb; cursor:pointer; background:#fff; }
+    .btn.on { background:#10b981; color:#fff; border-color:#10b981; }
+    .small { font-size: 8pt; color:#374151; line-height:1.4; }
+    .mid   { font-size: 8pt; color:#111827; white-space:pre-wrap; }
+    .large { font-size: 16pt; color:#111827; white-space:pre-wrap; }
+    .card  { border:1px solid #e5e7eb; border-radius:14px; padding:12px; }
+    .status{ font-size:12px; }
+  </style>
 </head>
-<body style="font-family:sans-serif; padding:20px;">
-  <h2>🌸 Realtime Translate Test</h2>
-  <textarea id="input" rows="4" cols="50" placeholder="入力してください..."></textarea><br>
-  <select id="targetLang">
-    <option value="English">English</option>
-    <option value="Japanese">日本語</option>
-    <option value="Chinese">中文</option>
-    <option value="Korean">한국어</option>
-  </select>
-  <button id="translateBtn">翻訳</button>
+<body>
+  <h2>🌸 Realtime Voice Translate（最小動作版）</h2>
 
-  <h3>💬 結果:</h3>
-  <div id="output" style="white-space:pre-wrap; background:#f4f4f4; padding:10px; border-radius:8px;"></div>
+  <div class="row" style="margin-bottom:8px;">
+    <button id="micBtn" class="btn">🎙️ 音声入力 OFF</button>
+    <span id="state" class="pill status">停止中</span>
+    <select id="sourceLang" class="btn">
+      <option value="ja-JP">🇯🇵 日本語</option>
+      <option value="zh-TW">🇹🇼 台湾華語</option>
+      <option value="en-US">🇺🇸 English</option>
+      <option value="ko-KR">🇰🇷 한국어</option>
+    </select>
+    <span>→</span>
+    <select id="targetLang" class="btn">
+      <option value="Japanese">日本語</option>
+      <option value="Chinese (Traditional)">中文（繁體）</option>
+      <option value="English" selected>English</option>
+      <option value="Korean">한국어</option>
+    </select>
+    <button id="clearBtn" class="btn">🧹 クリア</button>
+  </div>
+
+  <div class="row" style="margin-bottom:10px;">
+    <textarea id="manualInput" rows="3" cols="60" placeholder="手入力もOK。入力後は［送信］で翻訳"></textarea>
+    <button id="sendBtn" class="btn">送信</button>
+  </div>
+
+  <div class="row" style="gap:16px;">
+    <div class="card" style="flex:1; min-width:260px;">
+      <div class="small">📝 入力テキスト（リアルタイム）</div>
+      <div id="interim" class="small" style="min-height:36px;"></div>
+      <hr />
+      <div class="small">🧩 補完テキスト（最終確定）</div>
+      <div id="final" class="mid" style="min-height:42px;"></div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:260px;">
+      <div class="small">🌐 同時翻訳（小さく表示）</div>
+      <div id="liveTrans" class="small" style="min-height:36px;"></div>
+      <hr />
+      <div class="small">✅ 補完して読みやすい翻訳（大きく表示）</div>
+      <div id="bestTrans" class="large" style="min-height:48px;"></div>
+    </div>
+  </div>
 
   <script src="client.js"></script>
 </body>
