@@ -1,23 +1,23 @@
 import express from "express";
 import OpenAI from "openai";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// 🔹 ここで index.html と client.js を配信できるようにする
+app.use(express.static(__dirname));
 
-const PORT = process.env.PORT || 3000;
-
-app.get("/", (req, res) => {
-  res.send("🌙 Realtime Translate Server connected to OpenAI!");
-});
+// 🔹 OpenAIクライアント
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.post("/translate", async (req, res) => {
   try {
     const { text, targetLang } = req.body;
-
     const prompt = `Translate the following text into ${targetLang}:\n${text}`;
 
     const completion = await client.chat.completions.create({
@@ -25,14 +25,12 @@ app.post("/translate", async (req, res) => {
       messages: [{ role: "user", content: prompt }],
     });
 
-    const translation = completion.choices[0].message.content;
-    res.json({ translation });
+    res.json({ translation: completion.choices[0].message.content });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Translation failed" });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🌙 Server running on port ${PORT}`));
